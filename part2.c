@@ -5,38 +5,23 @@
 
 int gCounter = 0;
 
+#define NUM_CHILDREN 5
+
 int main ()
 {
-   int pipefd[2];
-   
-   if (pipe(pipefd) == -1)
+   for (int i = 0; gCounter != 100; ++i)
    {
-      printf("pipe failed\n");
-      exit(0);
-   }
-   
-   for (int i = 0; i < 5; ++i)
-   {
-      pid_t pid = fork();
+      if (i != 0)
+      {
+         gCounter++;
+         printf("New Value: %d PID: %d\n", gCounter, i);
+      }
       
-      if (pid == 0) //if child
+      if (i > NUM_CHILDREN)
       {
-         while (gCounter != 100)
-         {
-            gCounter++;
-            printf("new counter: %d PID: %d\n", gCounter, getpid());
-         }
-         
-         break;
-      }
-      else if (pid > 0) //if parent
-      {
+         i = 0;
       }
    }
    
-   wait(NULL);
-   
-   printf("--END PROCESS--\n");
-   
-	return 0;
+   return 0;
 }

@@ -5,30 +5,23 @@
 
 int gCounter = 0;
 
+#define NUM_CHILDREN 5
+
 int main ()
 {
-   for (int i = 0; i < 5; ++i)
+   for (int i = 0; gCounter != 100; ++i)
    {
-      pid_t pid = fork();
-      
-      if (pid == 0) //if child
+      if (i != 0)
       {
-         while (gCounter != 100)
-         {
-            gCounter++;
-            printf("new counter: %d PID: %d\n", gCounter, getpid());
-         }
-         
-         break;
+         gCounter++;
+         printf("New Value: %d PID: %d\n", gCounter, i);
       }
-      else if (pid > 0) //if parent
+      
+      if (i > NUM_CHILDREN)
       {
+         i = 0;
       }
    }
-   
-   wait(NULL);
-   
-   printf("--END PROCESS--\n");
    
 	return 0;
 }
