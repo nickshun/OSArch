@@ -60,17 +60,9 @@ void *parent(void* pid)
         perror("shmget");
         exit(1);
     }
-<<<<<<< HEAD:pa1_part3.c
    
    shm = shmat(shmid, NULL, 0);
     if (*shm == -1) {
-=======
-    printf("created segment in memory\n");
-    /*
-     * Now we attach the segment to our data space.
-     */
-    if ((shm = shmat(shmid, NULL, 0)) == (int *)-1) {
->>>>>>> b15ff0a4631304e4139a2aeec8fcddff2d633e3c:part3.c
         perror("shmat");
         exit(1);
     }
@@ -112,15 +104,8 @@ void *child(void* pid)
         exit(1);
     }
     
-<<<<<<< HEAD:pa1_part3.c
     shm = shmat(shmid, NULL, 0);
     if (*shm == -1) {
-=======
-    /*
-     * Now we attach the segment to our data space.
-     */
-    if ((shm = shmat(shmid, NULL, 0)) == (int *)-1) {
->>>>>>> b15ff0a4631304e4139a2aeec8fcddff2d633e3c:part3.c
         perror("shmat");
         exit(1);
     }
