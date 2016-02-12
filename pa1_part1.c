@@ -1,3 +1,13 @@
+/*
+ Authors: Gabrielle Kenney
+          Eric Nicholson
+ 
+ Description:
+   This program simulates process syncronization between a parent and multiple children proccesses.
+   The processes are simulated by using threads. Each 'child' thread will increment a global variable
+   by 1 until that value reaches 100.
+ */
+
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>

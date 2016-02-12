@@ -1,3 +1,12 @@
+/*
+ Authors: Gabrielle Kenney
+ Eric Nicholson
+ 
+ Description:
+ This program simulates process syncronization between a parent and multiple children proccesses.
+ The processes are simulated by using threads. The parent thread will write the intial value of a global variable into a named pipe. The children threads will take turns reading the value written into the pipe, 
+      increment the value by one, and then write the new value into the pipe for the next child.*/
+
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>

@@ -1,0 +1,7 @@
+Part 1:
+	For part 1 we used a Semaphore and threads to simulate multiple processes. Before we used the semaphore, the program seemed to display the desired output, but the only part in the critical section of the child processes was incrementing an integer by one. This is a small task, but if we had a bigger one, the semaphore would be critical to keeping the data consistent. Once we got the semaphore in, the output looked the same, but the threads all took turns incrementing the integer, instead of trying to do it at the same time.
+
+Part 2:
+	for part 2 we used a named pipe. the pipe was opened by the parent process and the file descriptor was saved as a global variable for the child processes to access the pipe. The initial value of the global variable (0) was written in to the pipe by the parent and then the children took turns reading the value, adding 1 to it, an then writing the new value into the pipe before exiting the critical section. Once the value in the pipe reached 100, the children processes that were still waiting to get into the critical section continued to run and increment to 104 since they began waiting before the value was 100. The solution to that was to check the value when it was read and only increment if it was under 100. Regardless, the value was written back into the pipe for any children still waiting to gain access. Once all the children threads finished, the Parent thread closes the pipe and exits.
+
+Part 3:
