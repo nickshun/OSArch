@@ -1,3 +1,5 @@
+//refrences: https://www.cs.cf.ac.uk/Dave/C/node27.html
+
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -67,7 +69,7 @@ void *parent(void* pid)
     /*
      * Now we attach the segment to our data space.
      */
-    if ((shm = shmat(shmid, NULL, 0)) == -1) {
+    if ((shm = shmat(shmid, NULL, 0)) == (int *)-1) {
         perror("shmat");
         exit(1);
     }
@@ -133,7 +135,7 @@ void *child(void* pid)
     /*
      * Now we attach the segment to our data space.
      */
-    if ((shm = shmat(shmid, NULL, 0)) == (char *) -1) {
+    if ((shm = shmat(shmid, NULL, 0)) == (int *)-1) {
         perror("shmat");
         exit(1);
     }
