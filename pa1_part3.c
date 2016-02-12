@@ -1,5 +1,14 @@
-//refrences: https://www.cs.cf.ac.uk/Dave/C/node27.html
-
+/*
+ Authors: Gabrielle Kenney
+ Eric Nicholson
+ 
+ Description:
+ This program simulates process syncronization between a parent and multiple children proccesses.
+ The processes are simulated by using threads. The parent thread will create a shared memory section and set the value to 0. Then the children will all take turns accessing the shared memory segment and incrementing the variable by 1 until the value reaches 100. The parent will wait for the children to finish runnign before it ends.
+ 
+ refrences: https://www.cs.cf.ac.uk/Dave/C/node27.html
+*/
+ 
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -103,7 +112,7 @@ void *child(void* pid)
         perror("shmget");
         exit(1);
     }
-    
+   
     shm = shmat(shmid, NULL, 0);
     if (*shm == -1) {
         perror("shmat");
