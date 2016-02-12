@@ -15,7 +15,6 @@ void *child(void* PID);
 int main ()
 {
    pthread_t* parentThread;
-   pthread_t children[NUM_CHILDREN];
    
    int rc;
    rc = pthread_create(parentThread, NULL, parent, (void*)0);
@@ -25,7 +24,7 @@ int main ()
       exit(-1);
    }
    
-   for (long i = 1; i <= NUM_CHILDREN; ++i)
+   /*for (long i = 1; i <= NUM_CHILDREN; ++i)
    {
       rc = pthread_create(children + (i-1), NULL, child, (void*) i);
       if (rc)
@@ -33,7 +32,7 @@ int main ()
          printf("ERROR; return code from pthread_create() is %d\n", rc);
          exit(-1);
       }
-   }
+   }*/
    
    pthread_exit(NULL);
    
@@ -60,8 +59,20 @@ int main ()
 void *parent(void* pid)
 {
    int PID = (int)pid;
+   pthread_t children[NUM_CHILDREN];
    
-   printf("parent\n");
+   printf("Parent\n");
+   
+   int rc;
+   for (long i = 1; i <= NUM_CHILDREN; ++i)
+   {
+      rc = pthread_create(children + (i-1), NULL, child, (void*) i);
+      if (rc)
+      {
+         printf("ERROR; return code from pthread_create() is %d\n", rc);
+         exit(-1);
+      }
+   }
    
    pthread_exit(NULL);
 }
@@ -71,6 +82,12 @@ void *child(void* pid)
    int PID = (int)pid;
    
    printf("child\n");
+   
+   while (gCounter < 100)
+   {
+      gCounter++;
+      printf("Counter: %d, PID: %d\n", gCounter,PID);
+   }
    
    pthread_exit(NULL);
 }
