@@ -4,16 +4,24 @@
 #include <sys/wait.h>
 #include <pthread.h>
 #include <stdlib.h>
+#include <semaphore.h>
+
+sem_t counter;
+
+
 
 int gCounter = 0;
 
 #define NUM_CHILDREN 5
+
 
 void *parent(void* PID);
 void *child(void* PID);
 
 int main ()
 {
+   sem_init(&counter, 0, 1);
+   
    pthread_t* parentThread;
    
    int rc;
@@ -24,34 +32,7 @@ int main ()
       exit(-1);
    }
    
-   /*for (long i = 1; i <= NUM_CHILDREN; ++i)
-   {
-      rc = pthread_create(children + (i-1), NULL, child, (void*) i);
-      if (rc)
-      {
-         printf("ERROR; return code from pthread_create() is %d\n", rc);
-         exit(-1);
-      }
-   }*/
-   
    pthread_exit(NULL);
-   
-   
-   
-   
-   /*for (int i = 0; gCounter != 100; ++i)
-   {
-      if (i != 0)
-      {
-         gCounter++;
-         printf("New Value: %d PID: %d\n", gCounter, i);
-      }
-      
-      if (i > NUM_CHILDREN)
-      {
-         i = 0;
-      }
-   }*/
    
 	return 0;
 }
@@ -85,8 +66,10 @@ void *child(void* pid)
    
    while (gCounter < 100)
    {
+      sem_wait(&counter);
       gCounter++;
       printf("Counter: %d, PID: %d\n", gCounter,PID);
+      sem_post(&counter);
    }
    
    pthread_exit(NULL);
